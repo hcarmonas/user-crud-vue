@@ -1,0 +1,15 @@
+{
+    "stylelint.enable": true,
+    "css.validate": false,
+    "scss.validate": false,
+    "javascript.validate.enable": false,
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "vue"
+    ],
+    "emmet.syntaxProfiles": {
+      "vue-html": "html",
+      "vue": "html"
+    }
+}

@@ -17,7 +17,8 @@
   "dependencies": {
     "cross-env": "^3.1.4",
     "koa": "^2.0.0",
-    "nuxt": "latest"
+    "nuxt": "latest",
+    "vuex": "^2.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

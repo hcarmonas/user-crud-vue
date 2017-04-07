@@ -13,6 +13,7 @@
   </section>
 </template>
 <script>
+
 export default {
   asyncData ({ req }) {
     return {
