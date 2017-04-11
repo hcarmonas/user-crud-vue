@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="container-input">
+    <div>
+      <router-link :to="{name: 'users-id', params: {id: 'new'}}">
+        <button type="button"
+              class="btn btnNew">Novo</button>
+      </router-link>
+    </div>
     <table>
       <thead>
         <tr>
@@ -15,25 +21,51 @@
           <td>{{user.name}}</td>
           <td>{{user.email}}</td>
           <td>
-            <button type="button"
+            <router-link :to="{name: 'users-id', params: {id: user.id}}">
+              <button type="button"
                     class="btn btnEdit">Editar</button>
+            </router-link>
             <button type="button"
-                    class="btn btnDelete">Deletar</button>
+                    class="btn btnDelete" @click="showModal = true">Deletar</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <delete-modal v-if="showModal" @cancel="showModal = false" @confirm="showModal = false"></delete-modal>
   </div>
-  <div></div>
+
 </template>
 
 <script>
+import {mapActions, mapState} from 'vuex'
+import deleteModal from '~components/deleteModal.vue'
+
 export default {
-  mounted () {
-    this.$store.dispatch('users/loadUsers')
+  data () {
+    return {
+      showModal: false
+    }
+  },
+  async mounted () {
+    await this.loadUsers()
+
+    // o mapActions no users elimina a linha abaixo
+    // this.$store.dispatch('users/loadUsers')
   },
   computed: {
-    users () { return this.$store.state.users.users }
+    ...mapState('users', [
+      'users'
+    ])
+    // o mapState no ususario elimina a linha abaixo.
+    // users () { return this.$store.state.users.users }
+  },
+  methods: {
+    ...mapActions('users', [
+      'loadUsers'
+    ])
+  },
+  components: {
+    'deleteModal': deleteModal
   }
 }
 
@@ -55,60 +87,6 @@ td {
 
 tr:hover {
   background-color: #f5f5f5
-}
-
-.btn {
-  display: inline-block;
-  font-weight: 400;
-  line-height: 1.25;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 1px solid transparent;
-  padding: .5rem 1rem;
-  font-size: 1rem;
-  border-radius: .25rem;
-  margin: 0px 5px 0px 5px;
-}
-
-.btnNew {
-  color: #fff;
-  background-color: #0275d8;
-  border-color: #0275d8;
-}
-
-.btnNew:hover {
-  color: #fff;
-  background-color: #025aa5;
-  border-color: #01549b;
-}
-
-.btnEdit {
-  color: #fff;
-  background-color: #5cb85c;
-  border-color: #5cb85c;
-}
-
-.btnEdit:hover {
-  color: #fff;
-  background-color: #449d44;
-  border-color: #419641;
-}
-
-.btnDelete {
-  color: #fff;
-  background-color: #d9534f;
-  border-color: #d9534f;
-}
-
-.btnDelete:hover {
-  color: #fff;
-  background-color: #c9302c;
-  border-color: #c12e2a;
 }
 </style>
 

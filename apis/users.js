@@ -25,7 +25,18 @@ class UsersApi {
   }
 
   async create (user) {
+    let lastId = this.users[this.users.length - 1].id
+    user.id = lastId + 1
     this.users.push(user)
+  }
+
+  async update (editUser, {id}) {
+    for (let user of this.users) {
+      if (user.id === Number(id)) {
+        user.name = editUser.name
+        user.email = editUser.email
+      }
+    }
   }
 
   async getAll () {
@@ -33,10 +44,10 @@ class UsersApi {
   }
 
   async get ({id}) {
-    let users = this.users.filter((u) => u.id === id)
-    if (users) {
+    let user = this.users.filter((u) => u.id === id)
+    if (user) {
       return {
-        body: users[0],
+        body: user[0],
         status: 200,
         ok: true
       }
@@ -49,7 +60,6 @@ class UsersApi {
 }
 
 export default new UsersApi()
-
 
 // import {CrudApi} from '~apis/base'
 // class UsersApi extends CrudApi {
